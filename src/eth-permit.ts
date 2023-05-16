@@ -94,7 +94,7 @@ const getDomain = async (provider: any, token: string | Domain): Promise<Domain>
     getChainId(provider),
   ]);
 
-  const domain: Domain = { name, version: '1', chainId, verifyingContract: tokenAddress };
+  const domain: Domain = { name, version: '2', chainId, verifyingContract: tokenAddress };
   return domain;
 };
 
