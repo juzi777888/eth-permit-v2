@@ -1,3 +1,6 @@
+# bug fix
+clone github.com/dmihal/eth-permit 
+and fix bugs 
 # eth-permit
 
 This package simplifies the process of signing `permit` messages for Ethereum tokens.
