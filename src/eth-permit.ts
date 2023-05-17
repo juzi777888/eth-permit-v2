@@ -82,7 +82,7 @@ const getTokenName = async (provider: any, address: string) =>
   hexToUtf8((await call(provider, address, NAME_FN)).substr(130));
 
 
-const getDomain = async (provider: any, token: string | Domain): Promise<Domain> => {
+const getDomain = async (provider: any, token: string | Domain, version: string): Promise<Domain> => {
   if (typeof token !== 'string') {
     return token as Domain;
   }
@@ -94,7 +94,7 @@ const getDomain = async (provider: any, token: string | Domain): Promise<Domain>
     getChainId(provider),
   ]);
 
-  const domain: Domain = { name, version: '2', chainId, verifyingContract: tokenAddress };
+  const domain: Domain = { name, version: version, chainId, verifyingContract: tokenAddress };
   return domain;
 };
 
@@ -116,7 +116,7 @@ export const signDaiPermit = async (
     allowed: true,
   };
 
-  const domain = await getDomain(provider, token);
+  const domain = await getDomain(provider, token , '1');
   const typedData = createTypedDaiData(message, domain);
   const sig = await signData(provider, holder, typedData);
 
@@ -142,7 +142,7 @@ export const signERC2612Permit = async (
     deadline: deadline || MAX_INT,
   };
 
-  const domain = await getDomain(provider, token);
+  const domain = await getDomain(provider, token , '2');
   const typedData = createTypedERC2612Data(message, domain);
   const sig = await signData(provider, owner, typedData);
 
