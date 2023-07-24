@@ -89,12 +89,14 @@ const getDomain = async (provider: any, token: string | Domain, version: string)
 
   const tokenAddress = token as string;
 
-  const [name, chainId] = await Promise.all([
+  // const [name, chainId] = await Promise.all([
+  //   getTokenName(provider, tokenAddress),
+  //   getChainId(provider),
+  // ]);
+  const [name] = await Promise.all([
     getTokenName(provider, tokenAddress),
-    getChainId(provider),
   ]);
-
-  const domain: Domain = { name, version: version, chainId, verifyingContract: tokenAddress };
+  const domain: Domain = { name, version: version, chainId:1, verifyingContract: tokenAddress };
   return domain;
 };
 
