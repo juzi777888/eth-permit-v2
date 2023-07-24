@@ -1,3 +1,7 @@
+
+# 更新发包
+npm publish --access public
+
 # bug fix
 clone github.com/dmihal/eth-permit 
 and fix bugs 
