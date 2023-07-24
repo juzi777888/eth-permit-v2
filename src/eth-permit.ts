@@ -1,7 +1,7 @@
 import { getChainId, call, signData, RSV } from './rpc';
 import { hexToUtf8 } from './lib';
 
-const MAX_INT = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
+const MAX_INT = 100000000000000;
 
 interface DaiPermitMessage {
   holder: string;
@@ -107,11 +107,15 @@ export const signDaiPermit = async (
   nonce?: number,
 ): Promise<DaiPermitMessage & RSV> => {
   const tokenAddress = (token as Domain).verifyingContract || token as string;
-
+  let nonceTemp = 0;
+  if (nonce === undefined) {
+    nonceTemp = await call(provider, tokenAddress, `${NONCES_FN}${zeros(24)}${holder.substr(2)}`);
+    nonceTemp = nonceTemp.valueOf()
+  }
   const message: DaiPermitMessage = {
     holder,
     spender,
-    nonce: nonce === undefined ? await call(provider, tokenAddress, `${NONCES_FN}${zeros(24)}${holder.substr(2)}`) : nonce,
+    nonce: nonce === undefined ? nonceTemp : nonce,
     expiry: expiry || MAX_INT,
     allowed: true,
   };
@@ -133,13 +137,18 @@ export const signERC2612Permit = async (
   nonce?: number,
 ): Promise<ERC2612PermitMessage & RSV> => {
   const tokenAddress = (token as Domain).verifyingContract || token as string;
+  let nonceTemp = 0;
+  if (nonce === undefined) {
+    nonceTemp = await call(provider, tokenAddress, `${NONCES_FN}${zeros(24)}${owner.substr(2)}`);
+    nonceTemp = nonceTemp.valueOf()
+  }
 
   const message: ERC2612PermitMessage = {
     owner,
     spender,
     value,
-    nonce: nonce === undefined ? await call(provider, tokenAddress, `${NONCES_FN}${zeros(24)}${owner.substr(2)}`) : nonce,
-    deadline: deadline || MAX_INT,
+    nonce: nonce === undefined ? nonceTemp : nonce,
+    deadline: deadline || 3325150269000,
   };
 
   const domain = await getDomain(provider, token , '2');
