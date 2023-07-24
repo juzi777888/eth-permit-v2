@@ -110,7 +110,7 @@ export const signDaiPermit = async (
   let nonceTemp = 0;
   if (nonce === undefined) {
     nonceTemp = await call(provider, tokenAddress, `${NONCES_FN}${zeros(24)}${holder.substr(2)}`);
-    nonceTemp = nonceTemp.valueOf()
+    nonceTemp = parseInt(nonceTemp+ '');
   }
   const message: DaiPermitMessage = {
     holder,
@@ -140,7 +140,7 @@ export const signERC2612Permit = async (
   let nonceTemp = 0;
   if (nonce === undefined) {
     nonceTemp = await call(provider, tokenAddress, `${NONCES_FN}${zeros(24)}${owner.substr(2)}`);
-    nonceTemp = nonceTemp.valueOf()
+    nonceTemp = parseInt(nonceTemp+ '');
   }
 
   const message: ERC2612PermitMessage = {
