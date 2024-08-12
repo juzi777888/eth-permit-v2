@@ -119,7 +119,7 @@ export const signDaiPermit = async (
   const message: DaiPermitMessage = {
     holder,
     spender,
-    nonce: nonce === undefined ? nonceTemp : nonce,
+    nonce: nonce === undefined ? nonceTemp : Number(nonce),
     expiry: expiry || MAX_INT,
     allowed: true,
   };

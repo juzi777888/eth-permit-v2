@@ -1,6 +1,6 @@
 {
   "name": "eth-permit-juzi",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "Sign permit messages for Ethereum tokens",
   "main": "dist/eth-permit.js",
   "types": "dist/eth-permit.d.ts",
