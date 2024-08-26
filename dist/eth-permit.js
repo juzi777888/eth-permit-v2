@@ -33,7 +33,7 @@ const createTypedDaiData = (message, domain) => {
         },
         primaryType: "Permit",
         domain,
-        value: message,
+        message,
     };
     return typedData;
 };
@@ -51,7 +51,7 @@ const createTypedERC2612Data = (message, domain) => {
         },
         primaryType: "Permit",
         domain,
-        value: message,
+        message,
     };
     return typedData;
 };
