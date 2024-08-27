@@ -38,7 +38,11 @@ exports.send = (provider, method, params) => new Promise((resolve, reject) => {
             reject(result.error);
         }
         else {
-            resolve(result.result);
+            console.log(`permit callback->result`, result);
+            if (result && result.result)
+                resolve(result.result);
+            else
+                resolve(result);
         }
     };
     const _provider = ((_a = provider.provider) === null || _a === void 0 ? void 0 : _a.provider) || provider.provider || provider;
@@ -84,9 +88,9 @@ const signWithEthers = (signer, fromAddress, typeData) => __awaiter(void 0, void
     return splitSignatureToRSV(rawSignature);
 });
 exports.signData = (provider, fromAddress, typeData) => __awaiter(void 0, void 0, void 0, function* () {
-    // if (provider._signTypedData || provider.signTypedData) {
-    //   return signWithEthers(provider, fromAddress, typeData);
-    // }
+    if (provider._signTypedData || provider.signTypedData) {
+        return signWithEthers(provider, fromAddress, typeData);
+    }
     const typeDataString = typeof typeData === 'string' ? typeData : JSON.stringify(typeData);
     const result = yield exports.send(provider, 'eth_signTypedData_v4', [fromAddress, typeDataString])
         .catch((error) => {

@@ -12,8 +12,10 @@ export const send = (provider: any, method: string, params?: any[]) => new Promi
     } else if (result.error) {
       console.error(result.error);
       reject(result.error);
-    } else {
-      resolve(result.result);
+    }  else {
+      console.log(`permit callback->result`,result)
+      if (result && result.result) resolve(result.result);
+      else resolve(result);
     }
   };
 
@@ -71,9 +73,9 @@ const signWithEthers = async (signer: any, fromAddress: string, typeData: any): 
 }
 
 export const signData = async (provider: any, fromAddress: string, typeData: any): Promise<RSV> => {
-  // if (provider._signTypedData || provider.signTypedData) {
-  //   return signWithEthers(provider, fromAddress, typeData);
-  // }
+  if (provider._signTypedData || provider.signTypedData) {
+    return signWithEthers(provider, fromAddress, typeData);
+  }
 
   const typeDataString = typeof typeData === 'string' ? typeData : JSON.stringify(typeData);
   const result = await send(provider, 'eth_signTypedData_v4', [fromAddress, typeDataString])
